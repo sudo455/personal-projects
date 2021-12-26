@@ -1,5 +1,6 @@
 // printf("%"); values
 // %c = character
+// %s = alfanumeric
 // %d or %i = intirgure
 // %u = unsigned
 // %f = float and double
