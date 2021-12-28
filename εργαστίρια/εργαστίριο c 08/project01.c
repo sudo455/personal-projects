@@ -8,7 +8,7 @@ struct IP { // IP = individual person
 struct IP input_person(){
     struct IP input_person;
     printf("name : telephone\n");
-    scanf("%19s : %d", input_person.name, &input_person.telephone);
+    scanf("%19s : %d", input_person.name, &input_person.telephone); 
     return input_person;
 }
 
