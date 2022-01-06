@@ -28,6 +28,7 @@ int main(void) {
         }
         
         if(ftell(fp) >=800000 && ftell(fp) <= 810000){
+            offset = offset - 1;
             if(fgetc(fp) == 't'){
                 offset = offset - 1;
                 if(fgetc(fp) == 'g'){
