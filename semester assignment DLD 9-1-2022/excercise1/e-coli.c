@@ -4,77 +4,78 @@
 
 #include <stdio.h>
 
-void c_a(char find_a, int m_a, *in);// απλός εδώ τα γράφω έτσι γιατί με βολεύει
-void c_c(char find_c, int m_c, *in);
-void c_g(char find_g, int m_g, *in);
-void c_t(char find_t, int m_t, *in);
-void tga(int i, char ftga[], int m_ftga, *in);
-void c_ttggat(int i,char find_ttggat[],int m_ttggat, *in);
+void find_acgt(int m1, int m2, int m3, int m4,char find){
+    if(find == 'a'){
+        m1++;
+    }else if(find == 'c'){
+        m2++;
+    }else if(find == 'g'){
+        m3++;
+    }else if(find == 't'){
+        m4++;
+    }
+}
 
 int main(void){
-    int m_a = 0, m_c = 0, m_g = 0, m_t = 0, m_tga = 0, i = 0;
+    int m_a = 0, m_c = 0, m_g = 0, m_t = 0, m_tga1 = 0, m_tga2 = 0, m_ttggat = 0, i = 0, priv = 0, cur = 0, next = cur + 1;
+    char data1[4] = "tga", data2[7] = "ttggat", tga[3];
     double e_a, e_c, e_g, e_t;
-    char find_tga[3] = "tga", find_ttggat[6] = "ttggat", find_a = 'a', find_c = 'c', find_g = 'g', find_t = 't';
     FILE *in;
     in = fopen("ecoli1.dat", "r");
-    
-    while(!feof(in)){ // αν βρεί το EOF στο .dat αρχείο να σταματήσει
+    fseek(in, 0, SEEK_SET);
+    while(!feof(in)){  // αν βρεί το EOF στο .dat αρχείο να σταματήσει
         
-        c_a(find_a, m_a, in);
-        c_c(find_c, m_c, in);
-        c_g(find_g, m_g, in);
-        c_t(find_t, m_t, in);
-        c_tga(i, find_tga, m_tga, in);
-        c_ttggat(i, find_ttggat, m_ttggat, in);
-
-        i++
+        find_acgt(m_a, m_c, m_g,m_t,fgetc(in));
+        
+        if(i > 800000 && i < 810000){ //
+            if(fgets(data1, 3, in) == tga){
+                //printf("pass fn tga \n");
+                m_tga1 = m_tga1 + 1;
+            }
+        }
+        if(i > 2510000 && i < 2520000){ //
+            if(fgets(data1, 3, in) == data1){
+                //printf("pass fn tga \n");
+                m_tga2 = m_tga2 + 1;
+            }
+        }
+        
+        if(i > 800000 && i < 810000){
+            if (fgets(data2, 6, in) == data2){
+                //printf("pass fn ttggat \n");
+                m_ttggat = m_ttggat + 1;
+            }
+        }
+        i++;
+        fseek(in, 1, SEEK_CUR);
+        if(i % 1000000 == 0){ 
+            printf("i'm doing something...\n");
+            printf("ftell =%ld\n", ftell(in));
+            printf("i=%d a=%d c=%d g=%d t=%d tga1=%d, tga2=%d tggat=%d, a+c+g+t= %d\n", i, m_a, m_c, m_g, m_t, m_tga1, m_tga2, m_ttggat, m_a+m_c+m_g+m_t);
+        }
+        //printf("ftell =%ld\n", ftell(in));
+        
     }
-
-    e_a = (m_a / i) * 100;
+    fclose(in);
+    e_a = ( (double) m_a / (double) m_i) * 100;
     e_c = (m_c / i) * 100;
     e_g = (m_g / i) * 100;
     e_t = (m_t / i) * 100;
 
-    fclose(in);
+    printf("--------------------------------------------------------------\n");
+    printf("a data base is: %.3lf else %d \n", e_a, m_a);
+    printf("c data base is: %.3lf else %d \n", e_c, m_c);
+    printf("g data base is: %.3lf else %d \n", e_g, m_g);
+    printf("t data base is: %.3lf else %d \n", e_t, m_t);
+    printf("--------------------------------------------------------------\n");
+    printf("tga data base from [800000, 810000]U[2510000, 2520000] is: %d \n", m_tga1 + m_tga2);
+    printf("tga data base from [800000, 810000] is: %d \n", m_tga1);
+    printf("tga data base from [2510000, 2520000] is: %d \n", m_tga2);
+    printf("--------------------------------------------------------------\n");
+    printf("ttggat data base from [800000, 810000] is: %d\n", m_ttggat);
+    printf("i=%d \n", i);
+    printf("last value = %d", 4520022);
+
+    
     return 0;
-}
-
-void c_a(char find_a, m_a, *in){
-    if(find_a == fgets(find_a,1, in)){
-        m_a++;
-    }
-}
-
-void c_c(char find_c, m_c, *in){
-    if(find_c == fgets(find_c,1, in)){
-        m_c++;
-    }
-}
-
-void c_g(char find_g, m_g, *in){
-    if(find_g == fgets(find_g,1, in)){
-        m_g++;
-    }
-}
-
-void c_t(char find_t, m_t, *in){
-    if(find_t == fgets(find_t,1, in)){
-        m_t++;
-    }
-}
-
-void tga(int i, char ftga[],int m_tga, *in){
-    if(((i >= 800000 && i <= 810000) || (i >= 2510000 && i <= 2520000))){ //
-        if(fgets(find_tga, 3, in)){
-            m_tga++;
-        }
-    }
-}
-
-void ttggat(int i,char ftggat[],int m_ttggat, *in){
-    if(i >= 800000 && i <= 810000){
-        if (fgets(find_ttggat,6, in)){
-            m_ttggat++;
-        }
-    }
 }
