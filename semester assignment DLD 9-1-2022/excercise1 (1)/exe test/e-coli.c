@@ -46,7 +46,7 @@ int main(void) {
                 find[4] = fgetc(fp);
                 find[5] = fgetc(fp);
             }
-            cc = 6;
+            cc = 5;
             if(find[0] == 't'){
                 if(find[1] == 't'){
                     if(find[2] == 'g'){
@@ -76,7 +76,7 @@ int main(void) {
                 find[1] = fgetc(fp);
                 find[2] = fgetc(fp);
             }
-            cc = 3 ;
+            cc = 2;
             if(find[0] == 't'){
                 if(find[1] == 'g'){
                     if (find[2] == 'a'){

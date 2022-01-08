@@ -1,4 +1,4 @@
-#​include​ ​<​stdio.h​> 
+​include​ ​<​stdio.h​> 
 #​include​ ​<​stdbool.h​> 
 int​ ​main​(​void​) { 
     ​int​ m_a=​0​, m_c=​0​, m_g=​0​, ​m_t​=​0​, m_ttggat=​0​, c=​0​, offset=​0​; 
