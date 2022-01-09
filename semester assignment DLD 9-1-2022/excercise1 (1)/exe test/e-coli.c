@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 int main(void) {
-    int m_a=0, m_c=0, m_g=0, m_t=0, m_ttggat=0, c=0, cc, i;
-    char find[6] = {' ', ' ', ' ', ' ', ' ', ' '};
+    int m_a=0, m_c=0, m_g=0, m_t=0, c=0, cc, i, m_f_b_ttggat = 0;
+    char find[6];
     double e_a, e_c, e_g, e_t;
+    bool found = false;
     FILE *fp=fopen("ecoli1.dat", "r");
 
     printf("1. triplet tga->[800000, 810000]\n2. triplet tga->[2510000, 2520000]\n");
@@ -28,8 +30,8 @@ int main(void) {
                 break;
         }
         
-        if(ftell(fp) >=800000 && ftell(fp) <= 810000){
-            if(find[1] == ' ' && find[2] == ' '){
+        if(ftell(fp) >= 800000 && ftell(fp) <= 810000){
+            if(find[1] == NULL && find[2] == NULL){
                 find[1] = fgetc(fp);
                 find[2] = fgetc(fp);
             }
@@ -41,10 +43,11 @@ int main(void) {
                     }
                 }
             }
-            if(find[3] == ' ' && find[4] == ' ' && find[5] == ' '){
+            if(find[3] == NULL && find[4] == NULL && find[5] == NULL){
                 find[3] = fgetc(fp);
                 find[4] = fgetc(fp);
                 find[5] = fgetc(fp);
+                fseek(fp, -6, SEEK_CUR);
             }
             cc = 5;
             if(find[0] == 't'){
@@ -53,13 +56,18 @@ int main(void) {
                         if(find[3] == 'g'){
                             if(find[4] == 'a'){
                                 if(find[5] == 't'){
-                                    m_ttggat++;
+                                    found = !found;
                                 }
                             }
                         }
                     }
                 }
             }
+
+            if(found){
+                m_f_b_ttggat++;
+            }
+
             for(i = 0; i < cc; i++){
                 find[i] = find[i+1];
             }
@@ -67,14 +75,15 @@ int main(void) {
         }
 
         if(ftell(fp) == 2509999){
-            find[1] = ' ';
-            find[2] = ' ';
+            find[1] = NULL;
+            find[2] = NULL;
         }
 
         if(ftell(fp)>=2510000 && ftell(fp)<=2520000){
-            if(find[1] == ' ' && find[2] == ' '){
+            if(find[1] == NULL && find[2] == NULL){
                 find[1] = fgetc(fp);
                 find[2] = fgetc(fp);
+                fseek(fp, -3, SEEK_CUR);
             }
             cc = 2;
             if(find[0] == 't'){
@@ -90,8 +99,9 @@ int main(void) {
             }
             find[cc] = fgetc(fp);
         }
-        if(!(ftell(fp) >=800000 && ftell(fp) <= 810000) || !(ftell(fp)>=2510000 && ftell(fp)<=2520000)){
+        if(!((ftell(fp) >=800000 && ftell(fp) <= 810000) || (ftell(fp)>=2510000 && ftell(fp)<=2520000))){
             find[0] = fgetc(fp);
+
         }
         
         c = ftell(fp);
@@ -109,8 +119,8 @@ int main(void) {
     printf("g data base is: %.3lf else %d \n", e_g, m_g);
     printf("t data base is: %.3lf else %d \n", e_t, m_t);
     printf("--------------------------------------------------------------\n");
-    printf("ttggat data base from [800000, 810000] is: %d\n", m_ttggat);
-    printf("c= %d all_acgt= %d off_by= %d \n", c, m_a+m_c+m_g+m_t, c-(m_a+m_c+m_g+m_t));
+    printf("number of bases acgt between 2 ttggat data base from [800000, 810000] is: %d\n", m_f_b_ttggat);
+    printf("c = %d all_acgt = %d off_by = %d \n", c, m_a+m_c+m_g+m_t, c-(m_a+m_c+m_g+m_t));
 
     return 0;
 }
