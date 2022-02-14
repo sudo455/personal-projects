@@ -114,10 +114,10 @@ int main(void) {
     e_g = ( (double) m_g / (double) c) * 100;
     e_t = ( (double) m_t / (double) c) * 100;
 
-    printf("a data base is: %.3lf else %d \n", e_a, m_a);
-    printf("c data base is: %.3lf else %d \n", e_c, m_c);
-    printf("g data base is: %.3lf else %d \n", e_g, m_g);
-    printf("t data base is: %.3lf else %d \n", e_t, m_t);
+    printf("a data base is: %.3lf\n", e_a);
+    printf("c data base is: %.3lf\n", e_c);
+    printf("g data base is: %.3lf\n", e_g);
+    printf("t data base is: %.3lf\n", e_t);
     printf("--------------------------------------------------------------\n");
     printf("number of bases acgt between 2 ttggat data base from [800000, 810000] is: %d\n", m_f_b_ttggat);
     printf("c = %d all_acgt = %d off_by = %d \n", c, m_a+m_c+m_g+m_t, c-(m_a+m_c+m_g+m_t));
