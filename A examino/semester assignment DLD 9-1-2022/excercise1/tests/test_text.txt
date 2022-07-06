@@ -1,1 +1,0 @@
-this is a test gcc test.c -o test
