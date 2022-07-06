@@ -1,0 +1,64 @@
+// 1) pososto vasewn a, c, g, t apo olo to dat file
+// 2) poses fores emfanizetai to tga sto [800000, 810000]U[2510000, 2520000]
+// 3) arithmo tou ttggat apo [800000, 810000]
+
+#include <stdio.h>
+
+int main(void){
+    long long int m_a = 0, m_c = 0, m_g = 0, m_t = 0, m_tga = 0, m_ttggat = 0, i = 0;
+    double e_a, e_c, e_g, e_t;
+    char data_base2[] = "ttggat", data[] = "tga";
+    FILE *in;
+    in = fopen("ecoli1.dat", "r");
+    
+    while(!feof(in)){ // αν βρεί το EOF στο .dat αρχείο να σταματήσει
+
+        //printf("i=%ld a=%ld c=%ld g=%ld t=%ld tga=%ld tggat=%ld\n", i, m_a, m_c, m_g, m_t, m_tga, m_ttggat);
+        
+        if(fgetc(in) == 'a'){
+            m_a++;
+        }else if(fgetc(in) == 'c'){
+            m_c++;
+        }else if(fgetc(in) == 'g'){
+            m_g++;
+        }else if(fgetc(in) == 't'){
+            m_t++;
+        }
+
+        
+        if((i > 800000 && i < 810000) || (i > 2510000 || i < 2520000)){ //
+            if(fgets(data, 4, in) == "tga"){
+                printf("pass fn tga \n");
+                m_tga = m_tga + 1;
+            }
+        }
+        
+        if(i > 800000 || i < 810000){
+            if (fgets(data_base2,7, in) == "ttggat"){
+                printf("pass fn ttggat \n");
+                m_ttggat = m_ttggat + 1;
+            }
+        }
+            //printf("pass\n");
+            i++;
+    }
+
+    e_a = (m_a / i+0.0) * 100;
+    e_c = (m_c / i+0.0) * 100;
+    e_g = (m_g / i+0.0) * 100;
+    e_t = (m_t / i+0.0) * 100;
+
+    printf("--------------------------------------------------------------\n");
+    printf("a data base is: %.3lf else %lld \n", e_a, m_a);
+    printf("c data base is: %.3lf else %lld \n", e_c, m_c);
+    printf("g data base is: %.3lf else %lld \n", e_g, m_g);
+    printf("t data base is: %.3lf else %lld \n", e_t, m_t);
+    printf("--------------------------------------------------------------\n");
+    printf("tga data base from [800000, 810000]U[2510000, 2520000] is: %lld \n", m_tga);
+    printf("--------------------------------------------------------------\n");
+    printf("ttggat data base from [800000, 810000] is: %lld\n", m_ttggat);
+    printf("i=%lld \n", i);
+
+    fclose(in);
+    return 0;
+}
